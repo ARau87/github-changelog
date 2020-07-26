@@ -1,0 +1,12 @@
+name: Build CLI Tool
+on:
+  release:
+    branches: [master]
+
+jobs:
+  build: 
+    runs-on: ubuntu
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+      - run: go version
