@@ -14,11 +14,11 @@ jobs:
       - name: Create artifact directory
         run: |
           mkdir release-linux-amd64
-          mv changelog release/changelog
-          mv .env.example release/.env
-          mv template.tmpl release/template.tmpl
+          mv changelog release-linux-amd64/changelog
+          mv .env.example release-linux-amd64/.env
+          mv template.tmpl release-linux-amd64/template.tmpl
       - name: Archive release directory
         uses: actions/upload-artifact@v2
         with:
           name: release-linux
-          path: release
+          path: release-linux-amd64
