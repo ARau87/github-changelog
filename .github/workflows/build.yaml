@@ -13,64 +13,46 @@ jobs:
       - name: Build for linux amd64
         run: |
           go build -o changelog main.go cli.go 
+          GOOS=windows GOARCH=amd64 go build -o changelog.exe main.go cli.go
+          GOOS=darwin GOARCH=amd64 go build -o darwin_changelog main.go cli.go
       - name: Create artifact directory
         run: |
-          mkdir bin
-          mv changelog bin/changelog
-          mv template.tmpl bin/template.tmpl
-          mv .env.example bin/.env
+          mkdir linux-amd64
+          mkdir win-amd64
+          mkdir darwin-amd64
+          mv changelog linux-amd64/changelog
+          mv changelog.exe win-amd64/changelog.exe
+          mv darwin_changelog darwin-amd64/changelog
+
+          cp template.tmpl linux-amd64/template.tmpl
+          cp template.tmpl win-amd64/template.tmpl
+          cp template.tmpl darwin-amd64/template.tmpl
+          
+          cp .env.example linux-amd64/.env
+          cp .env.example win-amd64/.env
+          cp .env.example darwin-amd64/.env
+
+      - uses: actions/upload-artifact@v2
+        with:	
+          name: package-${{ github.ref }}-linux-amd64
+          path: ${{ github.workspace }}/linux-amd64 
+
+      - uses: actions/upload-artifact@v2
+        with:	
+          name: package-${{ github.ref }}-windows-amd64
+          path: ${{ github.workspace }}/windows-amd64 
+
+      - uses: actions/upload-artifact@v2
+        with:	
+          name: package-${{ github.ref }}-windows-amd64
+          path: ${{ github.workspace }}/windows-amd64 
+
       - name: Create Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release Linux-${{ github.ref }}
-          draft: false
-          prerelease: false
-  build-windows-amd64: 
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
-      - name: Build for linux amd64
-        run: |
-          GOOS=windows GOARCH=amd64 go build -o changelog main.go cli.go
-      - name: Create artifact directory
-        run: |
-          mkdir bin
-          mv changelog bin/changelog
-          mv template.tmpl bin/template.tmpl
-          mv .env.example bin/.env
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release Windows-${{ github.ref }}
-          draft: false
-          prerelease: false
-  build-darwin-amd64: 
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
-      - name: Build for linux amd64
-        run: |
-          GOOS=darwin GOARCH=amd64 go build -o changelog main.go cli.go
-      - name: Create artifact directory
-        run: |
-          mkdir bin
-          mv changelog bin/changelog
-          mv template.tmpl bin/template.tmpl
-          mv .env.example bin/.env
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release Darwin-${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
