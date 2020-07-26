@@ -4,14 +4,21 @@ on:
     branches: [master]
 
 jobs:
-  build: 
+  build-linux-amd64: 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
       - name: Build for linux amd64
         run: go build -o changelog main.go cli.go 
-      - name: Build for windows amd64
-        run: GOOS=windows GOARCH=amd64 go build -o changelog.exe main.go cli.go
-      - name: Build for mac amd64
-        run: GOOS=darwin GOARCH=amd64 go build -o changelog-darwin main.go cli.go
+      - name: Create artifact directory
+        run: |
+          mkdir release-linux-amd64
+          mv changelog release/changelog
+          mv .env.example release/.env
+          mv template.tmpl release/template.tmpl
+      - name: Archive release directory
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-linux
+          path: release
