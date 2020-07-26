@@ -35,22 +35,12 @@ jobs:
           cp .env.example win-amd64/.env
           cp .env.example darwin-amd64/.env
 
-      - uses: actions/upload-artifact@v2
-        with:	
-          name: package-${{ steps.get_version.outputs.VERSION }}-linux-amd64
-          path: ${{ github.workspace }}/linux-amd64 
-
-      - uses: actions/upload-artifact@v2
-        with:	
-          name: package-${{ steps.get_version.outputs.VERSION }}-win-amd64
-          path: ${{ github.workspace }}/win-amd64 
-
-      - uses: actions/upload-artifact@v2
-        with:	
-          name: package-${{ steps.get_version.outputs.VERSION }}-darwin-amd64
-          path: ${{ github.workspace }}/darwin-amd64 
+          zip -r package-${{ steps.get_version.outputs.VERSION }}-linux-amd64.zip linux-amd64/
+          zip -r package-${{ steps.get_version.outputs.VERSION }}-win-amd64.zip win-amd64/
+          zip -r package-${{ steps.get_version.outputs.VERSION }}-darwin-amd64.zip darwin-amd64/
 
       - name: Create Release
+        id: create-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -59,3 +49,33 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+      - name: Upload Release Linux Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./package-${{ steps.get_version.outputs.VERSION }}-linux-amd64.zip
+          asset_name: package-${{ steps.get_version.outputs.VERSION }}-linux-amd64.zip
+          asset_content_type: application/zip
+      - name: Upload Release Windows Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./package-${{ steps.get_version.outputs.VERSION }}-win-amd64.zip
+          asset_name: package-${{ steps.get_version.outputs.VERSION }}-win-amd64.zip
+          asset_content_type: application/zip
+      - name: Upload Release Darwin Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./package-${{ steps.get_version.outputs.VERSION }}-darwin-amd64.zip
+          asset_name: package-${{ steps.get_version.outputs.VERSION }}-darwin-amd64.zip
+          asset_content_type: application/zip
