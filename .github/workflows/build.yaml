@@ -42,13 +42,13 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:	
-          name: package-${{ steps.get_version.outputs.VERSION }}-windows-amd64
-          path: ${{ github.workspace }}/windows-amd64 
+          name: package-${{ steps.get_version.outputs.VERSION }}-win-amd64
+          path: ${{ github.workspace }}/win-amd64 
 
       - uses: actions/upload-artifact@v2
         with:	
-          name: package-${{ steps.get_version.outputs.VERSION }}-windows-amd64
-          path: ${{ github.workspace }}/windows-amd64 
+          name: package-${{ steps.get_version.outputs.VERSION }}-darwin-amd64
+          path: ${{ github.workspace }}/darwin-amd64 
 
       - name: Create Release
         uses: actions/create-release@v1
