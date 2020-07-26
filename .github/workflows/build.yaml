@@ -8,13 +8,9 @@ jobs:
   build-linux-amd64: 
     runs-on: ubuntu-latest
     steps:
-      - name: Extract tag name
-        id: tag
-        uses: actions/github-script@0.2.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            return context.payload.ref.replace(/\/refs\/tags\//, '');
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
       - name: Build for linux amd64
@@ -41,17 +37,17 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:	
-          name: package-${{ steps.tag.outputs.result }}-linux-amd64
+          name: package-${{ steps.get_version.outputs.VERSION }}-linux-amd64
           path: ${{ github.workspace }}/linux-amd64 
 
       - uses: actions/upload-artifact@v2
         with:	
-          name: package-${{ steps.tag.outputs.result }}-windows-amd64
+          name: package-${{ steps.get_version.outputs.VERSION }}-windows-amd64
           path: ${{ github.workspace }}/windows-amd64 
 
       - uses: actions/upload-artifact@v2
         with:	
-          name: package-${{ steps.tag.outputs.result }}-windows-amd64
+          name: package-${{ steps.get_version.outputs.VERSION }}-windows-amd64
           path: ${{ github.workspace }}/windows-amd64 
 
       - name: Create Release
