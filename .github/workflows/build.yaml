@@ -16,8 +16,9 @@ jobs:
       - name: Create artifact directory
         run: |
           mkdir bin
-          mv changelog template.tmpl bin/changelog
-          mv .env.example release-linux-amd64/.env
+          mv changelog bin/changelog
+          mv template.tmpl bin/template.tmpl
+          mv .env.example bin/.env
       - name: Create Release
         uses: actions/create-release@v1
         env:
@@ -38,8 +39,9 @@ jobs:
       - name: Create artifact directory
         run: |
           mkdir bin
-          mv changelog template.tmpl bin/changelog
-          mv .env.example release-linux-amd64/.env
+          mv changelog bin/changelog
+          mv template.tmpl bin/template.tmpl
+          mv .env.example bin/.env
       - name: Create Release
         uses: actions/create-release@v1
         env:
@@ -60,8 +62,9 @@ jobs:
       - name: Create artifact directory
         run: |
           mkdir bin
-          mv changelog template.tmpl bin/changelog
-          mv .env.example release-linux-amd64/.env
+          mv changelog bin/changelog
+          mv template.tmpl bin/template.tmpl
+          mv .env.example bin/.env
       - name: Create Release
         uses: actions/create-release@v1
         env:
