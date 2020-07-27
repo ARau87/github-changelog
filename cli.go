@@ -18,6 +18,7 @@ func SetupApp() *cli.App {
 						Name:    "out",
 						Aliases: []string{"o"},
 						Usage:   "Path to output file",
+						Required: true,
 					},
 					&cli.StringFlag{
 						Name:    "tag",
