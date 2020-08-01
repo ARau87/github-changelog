@@ -22,13 +22,13 @@ reads their body and looks for a specified start string ( default: "Changelog:")
 
 The general usage is:
 
-`main [global options] command [command options] [arguments...]`
+`changelog [global options] command [command options] [arguments...]`
 
 ### Create
 
 Create a new changelog.
 
-`main create [command options] [arguments...]`
+`changelog create [command options] [arguments...]`
 
 #### Required Options
 
@@ -48,3 +48,7 @@ Create a new changelog.
 
 Besides using the `-oauth` flag to provide an access token it is possible to add the token inside a .env file.
 To achieve that rename the `.env.example` file that comes with the binary to `.env` and adjust value of `OAUTH_TOKEN=<your_token_here>`. Using the .env file AND the `-oauth` flag, the flag value will be used inside the .env value.
+
+## Changing the output template
+
+**Coming soon**
