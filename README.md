@@ -32,7 +32,7 @@ Create a new changelog.
 
 #### Required Options
 
-- `--out value, -o value`         Path to output file
+- `--out value, -o value`         Path and name of the file that will be created relative to the current working directory.
 - `--repo value, -r value`        The repository name
 - `--owner value, -O value`       The owner of the repository
 - `--oauth value, -X value`       Personal access token used to perform actions ( Required for private repositories)
