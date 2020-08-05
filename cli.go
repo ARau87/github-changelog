@@ -15,9 +15,9 @@ func SetupApp() *cli.App {
 				Usage:   "Create changelog",
 				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:    "out",
-						Aliases: []string{"o"},
-						Usage:   "Path to output file",
+						Name:     "out",
+						Aliases:  []string{"o"},
+						Usage:    "Path to output file",
 						Required: true,
 					},
 					&cli.StringFlag{
